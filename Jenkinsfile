@@ -17,7 +17,5 @@ pipeline {
                                 """
                         }
                      }
-                 }
-            } // stage-move-image
     } // stages
 } // pipeline
