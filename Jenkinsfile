@@ -14,7 +14,7 @@ pipeline {
     stages {
          stage('Push image to Artifactory') {
            steps {
-             withDockerRegistry([credentialsId: "0655008f-aa54-4a16-9484-421b55390dbb", url: "https://docker-registry.default.svc:5000"]) {
+             withDockerRegistry([credentialsId: "docker-registry-default-svc", url: "https://docker-registry.default.svc:5000"]) {
      
                withDockerRegistry([credentialsId: "aio-home-io-ntls-creds", url: "https://aio.home.io:5000"]) {
                  sh """
