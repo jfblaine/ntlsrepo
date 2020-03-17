@@ -1,6 +1,6 @@
 pipeline {
   agent {
-      label 'push-to-artifactory'
+      label 'docker'
   }
     options {
         // set a timeout of 20 minutes for this pipeline
