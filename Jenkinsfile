@@ -1,6 +1,6 @@
 pipeline {
   agent {
-      label 'docker'
+      label 'base'
   }
     options {
         // set a timeout of 20 minutes for this pipeline
