@@ -84,7 +84,7 @@ pipeline {
 
                withDockerRegistry([credentialsId: "aio-home-io-ntls-creds", url: "https://aio.home.io:5000"]) {
                  sh """
-                     oc image mirror --insecure=true docker-registry.default.svc:5000/jblaine/ntlsrepo:latest aio.home.io:5000/ntlsrepo/ntlsrepo-test:latest
+                     oc image mirror --insecure=true docker-registry.default.svc:5000/"${APP_NAME}:v${BUILD_NUMBER}" aio.home.io:5000/ntlsrepo/"${APP_NAME}:v${BUILD_NUMBER}"
                     """
                  }
                }
