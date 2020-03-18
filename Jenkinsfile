@@ -31,7 +31,7 @@ pipeline {
                          openshift.withProject("${CICD_DEV}")
                          {
 
-                             if (openshift.selector("bc",${APP_NAME}).exists()) {
+                             if (openshift.selector("bc",APP_NAME).exists()) {
                                  echo "Using existing BuildConfig. Running new Build"
                                  def bc = openshift.startBuild(${APP_NAME})
                                  openshift.set("env dc/${APP_NAME} BUILD_NUMBER=${BUILD_NUMBER}")
