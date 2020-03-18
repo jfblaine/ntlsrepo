@@ -7,11 +7,13 @@ pipeline {
         timeout(time: 20, unit: 'MINUTES')
     } //options
     environment {
-        CICD_DEV    = "jblaine"
+        DEV_NS      = "jblaine"
         APP_NAME    = "ruby-ex"
         BUILD_IMG   = "openshift/ruby:2.5"        
         GIT_REPO    = "ssh://git@github.com/jfblaine/ruby-ex.git"
         GIT_BRANCH  = "master"
+        JFROG_URL   = "aio.home.io:5000"
+        JFROG_REPO  = "ntlsrepo"
     }
     stages {
          stage('preamble') {
@@ -27,10 +29,10 @@ pipeline {
          }
          stage('Build') {
              steps {
-                 echo "Sample Build stage using project ${CICD_DEV}"
+                 echo "Sample Build stage using project ${DEV_NS}"
                  script {
                      openshift.withCluster() {
-                         openshift.withProject("${CICD_DEV}")
+                         openshift.withProject("${DEV_NS}")
                          {
 
                              if (openshift.selector("bc",APP_NAME).exists()) {
@@ -84,7 +86,7 @@ pipeline {
 
                withDockerRegistry([credentialsId: "aio-home-io-ntls-creds", url: "https://aio.home.io:5000"]) {
                  sh """
-                     oc image mirror --insecure=true docker-registry.default.svc:5000/"${APP_NAME}:v${BUILD_NUMBER}" aio.home.io:5000/ntlsrepo/"${APP_NAME}:v${BUILD_NUMBER}"
+                     oc image mirror --insecure=true docker-registry.default.svc:5000/${DEV_NS}/${APP_NAME}:v${BUILD_NUMBER} ${JFROG_URL}/${JFROG_REPO}/${APP_NAME}:v${BUILD_NUMBER}
                     """
                  }
                }
