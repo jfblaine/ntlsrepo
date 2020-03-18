@@ -84,7 +84,7 @@ pipeline {
            steps {
              withDockerRegistry([credentialsId: "docker-registry-default-svc", url: "https://docker-registry.default.svc:5000"]) {
 
-               withDockerRegistry([credentialsId: "aio-home-io-ntls-creds", url: ${JFROG_URL}]) {
+               withDockerRegistry([credentialsId: "aio-home-io-ntls-creds", url: "${JFROG_URL}"]) {
                  sh """
                      oc image mirror --insecure=true docker-registry.default.svc:5000/"${DEV_NS}"/${APP_NAME}:v${BUILD_NUMBER} ${JFROG_URL}/${JFROG_REPO}/${APP_NAME}:v${BUILD_NUMBER}
                     """
