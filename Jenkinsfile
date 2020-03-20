@@ -8,9 +8,8 @@ pipeline {
     } //options
     environment {
         DEV_NS      = "jblaine"
-        APP_NAME    = "ruby-ex"
-        BUILD_IMG   = "openshift/ruby:2.5"        
-        GIT_REPO    = "ssh://git@github.com/jfblaine/ruby-ex.git"
+        APP_NAME    = "py-helloworld"
+        GIT_REPO    = "git@github.com:jfblaine/py-helloworld.git"
         GIT_BRANCH  = "master"
         JFROG_URL   = "aio.home.io:5000"
         JFROG_REPO  = "ntlsrepo"
@@ -30,6 +29,7 @@ pipeline {
          stage('Build') {
              steps {
                  echo "Sample Build stage using project ${DEV_NS}"
+                 echo "Sample Build running on node: ${NODE_NAME}"
                  script {
                      openshift.withCluster() {
                          openshift.withProject("${DEV_NS}")
@@ -49,7 +49,7 @@ pipeline {
                              } else {
                                  echo "No proevious BuildConfig. Creating new BuildConfig."
                                  def myNewApp = openshift.newApp (
-                                     "${BUILD_IMG}~${GIT_REPO}#${GIT_BRANCH}", 
+                                     "${GIT_REPO}#${GIT_BRANCH}", 
                                      "--name=${APP_NAME}", 
                                      "-e BUILD_NUMBER=${BUILD_NUMBER}", 
                                      "-e BUILD_ENV=${openshift.project()}"
