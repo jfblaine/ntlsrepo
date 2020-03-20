@@ -16,7 +16,9 @@ pipeline {
     }
     stages {
          stage('Build') {
-            agent { base }
+            agent {
+                label 'base'
+            }            
             steps {
                  script {
                      openshift.withCluster() {
@@ -78,27 +80,31 @@ pipeline {
              } // steps
          } //stage-build
          stage('Push image to Artifactory') {
-           agent { base }
-           steps {
-             withDockerRegistry([credentialsId: "docker-registry-default-svc", url: "https://docker-registry.default.svc:5000"]) {
-               withDockerRegistry([credentialsId: "aio-home-io-ntls-creds", url: "https://${JFROG_URL}"]) {
-                 sh """
-                     oc image mirror --insecure=true "docker-registry.default.svc:5000/${DEV_NS}/${APP_NAME}:v${BUILD_NUMBER}" "${JFROG_URL}/${JFROG_REPO}/${APP_NAME}:v${BUILD_NUMBER}"
-                    """
-                 }
-               }
-             } // steps
-         } // stage
+            agent {
+                label 'base'
+            }
+            steps {
+              withDockerRegistry([credentialsId: "docker-registry-default-svc", url: "https://docker-registry.default.svc:5000"]) {
+                withDockerRegistry([credentialsId: "aio-home-io-ntls-creds", url: "https://${JFROG_URL}"]) {
+                  sh """
+                      oc image mirror --insecure=true "docker-registry.default.svc:5000/${DEV_NS}/${APP_NAME}:v${BUILD_NUMBER}" "${JFROG_URL}/${JFROG_REPO}/${APP_NAME}:v${BUILD_NUMBER}"
+                     """
+                  }
+                }
+              } // steps
+            } // stage
          stage('Deploy image with helm') {
-           agent { helm }             
-           steps {
-                 sh """
-                     git clone ${HELM_REPO}
-                    """
-                 sh """
-                     helm install --debug ./${HELM_CHART_DIR}/ --set image_url="${JFROG_URL}/${JFROG_REPO}/${APP_NAME}:v${BUILD_NUMBER}"
-                    """
-             } // steps
-         } // stage         
+            agent {
+                label 'base'
+            }             
+            steps {
+                  sh """
+                      git clone ${HELM_REPO}
+                     """
+                  sh """
+                      helm install --debug ./${HELM_CHART_DIR}/ --set image_url="${JFROG_URL}/${JFROG_REPO}/${APP_NAME}:v${BUILD_NUMBER}"
+                     """
+            } // steps
+        } // stage         
     } // stages
 } // pipeline
