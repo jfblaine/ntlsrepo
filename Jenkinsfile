@@ -95,7 +95,7 @@ pipeline {
             } // stage
          stage('Deploy image with helm') {
             agent {
-                label 'base'
+                label 'helm'
             }             
             steps {
                   sh """
