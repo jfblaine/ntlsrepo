@@ -9,7 +9,7 @@ pipeline {
     environment {
         DEV_NS      = "jblaine"
         APP_NAME    = "py-helloworld"
-        GIT_REPO    = "git@github.com:jfblaine/py-helloworld.git"
+        GIT_REPO    = "ssh://git@github.com/jfblaine/py-helloworld.git"
         GIT_BRANCH  = "master"
         JFROG_URL   = "aio.home.io:5000"
         JFROG_REPO  = "ntlsrepo"
