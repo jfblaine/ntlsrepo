@@ -18,7 +18,7 @@ pipeline {
          stage('Build') {
             agent {
                 label 'base'
-            }            
+            }
             steps {
                  script {
                      openshift.withCluster() {
@@ -26,7 +26,7 @@ pipeline {
                              echo "Using project: ${openshift.project()}"
                          }
                      }
-                 }                
+                 }
                  echo "Sample Build stage using project ${DEV_NS}"
                  echo "Sample Build running on node: ${NODE_NAME}"
                  script {
@@ -96,7 +96,7 @@ pipeline {
          stage('Deploy image with helm') {
             agent {
                 label 'helm'
-            }             
+            }
             steps {
                   sh """
                       git clone ${HELM_REPO}
@@ -105,6 +105,6 @@ pipeline {
                       helm install --debug ./${HELM_CHART_DIR}/ --set image_url="${JFROG_URL}/${JFROG_REPO}/${APP_NAME}:v${BUILD_NUMBER}"
                      """
             } // steps
-        } // stage         
+        } // stage
     } // stages
 } // pipeline
