@@ -21,9 +21,8 @@ pipeline {
             }
             steps {
                   script {
-                  git credentialsId: 'helm-deploy-repo-at-github',
-                      url: ${HELM_REPO}
-                  
+                       git credentialsId: 'helm-deploy-repo-at-github',
+                           url: "${HELM_REPO}"                  
                   }    
                   sh """
                       helm install --debug ./${HELM_CHART_DIR}/ --set image_url="${JFROG_URL}/${JFROG_REPO}/${APP_NAME}:v84"
