@@ -26,7 +26,6 @@ pipeline {
                        withCredentials([file(credentialsId: 'tiller-kubeconfig', variable: 'kubeconfig')]) {
                             sh """
                                 export KUBECONFIG=\${kubeconfig}; export TILLER_NAMESPACE=jblaine
-                                helm version
                                 helm install --debug ./${HELM_CHART_DIR}/ --set image_url="${JFROG_URL}/${JFROG_REPO}/${APP_NAME}:v84"
                                """
                        }
