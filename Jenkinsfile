@@ -19,9 +19,10 @@ pipeline {
     }
     parameters {
         string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+        // text parameter allows multi-line values, ie understands carriage return/line feed
         text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
         booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
-        choice(name: 'TARGET_ENVIRONMENT', choices: [${QA_NS}, 'Two', 'Three'], description: 'Choose target environment')
+        choice(name: 'TARGET_ENVIRONMENT', choices: ['Dev', 'QA', 'Prod'], description: 'Choose target environment')
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
     }
     stages {
