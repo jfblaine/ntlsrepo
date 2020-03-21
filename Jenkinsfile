@@ -27,7 +27,7 @@ pipeline {
                             sh """
                                 export KUBECONFIG=\${kubeconfig}; export TILLER_NAMESPACE=jblaine
                                 pwd; ls -ltrah
-                                helm install --debug -n ${APP_NAME} ./${HELM_CHART_DIR}/ --tiller-namespace jblaine --namespace ntls-qa --set image_url="${JFROG_URL}/${JFROG_REPO}/${APP_NAME}:v84"
+                                helm install --debug -n ${APP_NAME} . --tiller-namespace jblaine --namespace ntls-qa --set image_url="${JFROG_URL}/${JFROG_REPO}/${APP_NAME}:v84"
                                """
                        }
                   }
