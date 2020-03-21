@@ -23,7 +23,7 @@ pipeline {
                   script {
                        git credentialsId: 'helm-deploy-repo-at-github',
                            url: "${HELM_REPO}"                  
-                       withCredentials([file(credentialsId: 'tiller-kubeconfig.yaml', variable: 'kubeconfig')]) {
+                       withCredentials([file(credentialsId: 'tiller-kubeconfig', variable: 'kubeconfig')]) {
                             sh """
                                 export KUBECONFIG=\${kubeconfig}; export TILLER_NAMESPACE=jblaine
                                 helm version
