@@ -6,7 +6,7 @@ pipeline {
     } //options
     environment {
         DEV_NS           = "jblaine"
-        QA_NS            = "ntls-qa"
+        // TARGET_NS     = "ntls-qa"
         APP_NAME         = "py-helloworld"
         GIT_URL          = "ssh://git@github.com/jfblaine"
         APP_GIT_REPO     = "${GIT_URL}/py-helloworld.git"
@@ -18,12 +18,13 @@ pipeline {
         TILLER_NAMESPACE = "jblaine"
     }
     parameters {
-        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+        // string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
         // text parameter allows multi-line values, ie understands carriage return/line feed
-        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
-        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
-        choice(name: 'TARGET_ENVIRONMENT', choices: ['Dev', 'QA', 'Prod'], description: 'Choose target environment')
-        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
+        // text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
+        // booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
+        choice(name: 'TARGET_NS', choices: ['ntls-qa', 'ntls-prod'], description: 'Choose target environment')
+        choice(name: 'DB_CXN_STRING', choices: ['mysql', 'oracle'], description: 'Choose database to be used')
+        // password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
     }
     stages {
          stage('Build') {
@@ -106,14 +107,14 @@ pipeline {
             steps {
                   script {
                        git credentialsId: 'helm-deploy-repo-at-github',
-                           url: "${HELM_REPO}"                  
+                           url: "${HELM_REPO}"
                        withCredentials([file(credentialsId: 'tiller-kubeconfig', variable: 'kubeconfig')]) {
                             sh """
                                 export KUBECONFIG=\${kubeconfig}; export TILLER_NAMESPACE="${TILLER_NAMESPACE}"
                                 helm upgrade --install --debug "${APP_NAME}" . \
-                                    --tiller-namespace "${TILLER_NAMESPACE}" --namespace "${QA_NS}" \
+                                    --tiller-namespace "${TILLER_NAMESPACE}" --namespace "${TARGET_NS}" \
                                     --set image_url="${JFROG_URL_BASE}/${JFROG_REPO}/${APP_NAME}:v${BUILD_NUMBER}" \
-                                    --set name="${APP_NAME}" --set namespace="${QA_NS}"
+                                    --set name="${APP_NAME}" --set namespace="${TARGET_NS}"
                                """
                        }
                   } // script
