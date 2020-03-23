@@ -60,12 +60,12 @@ pipeline {
                              } else {
                                  echo "No existing BuildConfig found. Creating new BuildConfig."
                                  def myNewApp = openshift.newApp (
-                                     "${APP_GIT_REPO}#${GIT_BRANCH}",
                                      "--name=${APP_NAME}",
-                                     "-e BUILD_NUMBER=${BUILD_NUMBER}",
-                                     "-e BUILD_ENV=${openshift.project()}",
+                                     "${APP_GIT_REPO}#${GIT_BRANCH}",
                                      "--strategy=docker",
-                                     "--insecure-registry"
+                                     "--insecure-registry",
+                                     "-e BUILD_NUMBER=${BUILD_NUMBER}",
+                                     "-e BUILD_ENV=${openshift.project()}"
                                      )
                                  openshift.set("set build-secret --pull bc/${APP_NAME} ${JFROG_OCP_SECRET}")
                                  echo "new-app myNewApp ${myNewApp.count()} objects named: ${myNewApp.names()}"
