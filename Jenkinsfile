@@ -5,8 +5,7 @@ pipeline {
         timeout(time: 20, unit: 'MINUTES')
     } //options
     environment {
-        DEV_NS           = "jblaine"
-        // TARGET_NS     = "ntls-qa"
+        DEV_NS           = "ntls-dev"
         APP_NAME         = "py-helloworld"
         GIT_URL          = "ssh://git@github.com/jfblaine"
         APP_GIT_REPO     = "${GIT_URL}/py-helloworld.git"
@@ -15,7 +14,7 @@ pipeline {
         JFROG_REPO       = "ntlsrepo"
         HELM_CHART_DIR   = "helm-deploy"
         HELM_REPO        = "${GIT_URL}/${HELM_CHART_DIR}.git"
-        TILLER_NAMESPACE = "jblaine"
+        TILLER_NAMESPACE = "ntls-tiller"
     }
     parameters {
         // string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
