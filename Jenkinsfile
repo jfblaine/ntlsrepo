@@ -62,7 +62,8 @@ pipeline {
                                      "openshift/origin-custom-docker-builder~${APP_GIT_REPO}#${GIT_BRANCH}",
                                      "--name=${APP_NAME}",
                                      "-e BUILD_NUMBER=${BUILD_NUMBER}",
-                                     "-e BUILD_ENV=${openshift.project()}"
+                                     "-e BUILD_ENV=${openshift.project()}",
+                                     "--strategy=docker"
                                      )
                                  echo "new-app myNewApp ${myNewApp.count()} objects named: ${myNewApp.names()}"
                                  myNewApp.describe()
