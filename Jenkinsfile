@@ -61,7 +61,7 @@ pipeline {
                                  echo "No existing BuildConfig found. Creating new BuildConfig."
                                  def myNewApp = openshift.newApp (
                                      "--name=${APP_NAME}",
-                                     "${APP_GIT_REPO}#${GIT_BRANCH}",
+                                     "aio.home.io:5000/ntlsrepo/ose-docker-builder~${APP_GIT_REPO}#${GIT_BRANCH}",
                                      "--strategy=docker",
                                      "--insecure-registry",
                                      "-e BUILD_NUMBER=${BUILD_NUMBER}",
