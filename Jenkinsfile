@@ -59,7 +59,7 @@ pipeline {
                              } else {
                                  echo "No existing BuildConfig found. Creating new BuildConfig."
                                  def myNewApp = openshift.newApp (
-                                     "openshift/origin-custom-docker-builder~${APP_GIT_REPO}#${GIT_BRANCH}",
+                                     "${APP_GIT_REPO}#${GIT_BRANCH}",
                                      "--name=${APP_NAME}",
                                      "-e BUILD_NUMBER=${BUILD_NUMBER}",
                                      "-e BUILD_ENV=${openshift.project()}",
