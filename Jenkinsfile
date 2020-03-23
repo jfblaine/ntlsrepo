@@ -68,7 +68,7 @@ pipeline {
                                  //    "-e BUILD_ENV=${openshift.project()}"
                                  //    )
                                  sh """
-                                     oc new-app --name="${APP_NAME}" --code="${APP_GIT_REPO}" --strategy=docker --insecure-registry
+                                     oc new-app --name="${APP_NAME}" --code="${APP_GIT_REPO}" --source-secret=py-helloworld-repo-at-github --strategy=docker --insecure-registry
                                     """
                                  openshift.set("build-secret --pull bc/${APP_NAME} ${JFROG_OCP_SECRET}")
                                  echo "new-app myNewApp ${myNewApp.count()} objects named: ${myNewApp.names()}"
