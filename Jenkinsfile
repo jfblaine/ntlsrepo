@@ -19,13 +19,8 @@ pipeline {
         TILLER_NAMESPACE = "ntls-tiller"
     }
     parameters {
-        // string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-        // text parameter allows multi-line values, ie understands carriage return/line feed
-        // text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
-        // booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
         choice(name: 'TARGET_NS', choices: ['ntls-qa', 'ntls-prod'], description: 'Choose target environment')
         choice(name: 'DB_TYPE', choices: ['mysql', 'oracle'], description: 'Choose database to be used')
-        // password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
     }
     stages {
          stage('Build') {
