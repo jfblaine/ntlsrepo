@@ -23,7 +23,7 @@ pipeline {
         // text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
         // booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
         choice(name: 'TARGET_NS', choices: ['ntls-qa', 'ntls-prod'], description: 'Choose target environment')
-        choice(name: 'DB_CXN_STRING', choices: ['mysql', 'oracle'], description: 'Choose database to be used')
+        choice(name: 'DB_TYPE', choices: ['mysql', 'oracle'], description: 'Choose database to be used')
         // password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
     }
     stages {
@@ -117,7 +117,7 @@ pipeline {
                                 helm upgrade --install --debug "${APP_NAME}-${TARGET_NS}" . \
                                     --tiller-namespace "${TILLER_NAMESPACE}" --namespace "${TARGET_NS}" \
                                     --set image_url="${JFROG_URL_BASE}/${JFROG_REPO}/${APP_NAME}:v${BUILD_NUMBER}" \
-                                    --set name="${APP_NAME}" --set namespace="${TARGET_NS}"
+                                    --set name="${APP_NAME}" --set namespace="${TARGET_NS} --set db_type="${DB_TYPE}"}
                                """
                        }
                   } // script
