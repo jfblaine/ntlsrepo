@@ -67,8 +67,8 @@ pipeline {
                                      "-e BUILD_NUMBER=${BUILD_NUMBER}",
                                      "-e BUILD_ENV=${openshift.project()}"
                                      )
-                                 openshift.set("build-secret --source bc/${APP_NAME} py-helloworld-repo-at-github")
-                                 openshift.set("build-secret --pull bc/${APP_NAME} ${JFROG_OCP_SECRET}")
+                                 // openshift.set("build-secret --source bc/${APP_NAME} py-helloworld-repo-at-github")
+                                 // openshift.set("build-secret --pull bc/${APP_NAME} ${JFROG_OCP_SECRET}")
                                  echo "new-app myNewApp ${myNewApp.count()} objects named: ${myNewApp.names()}"
                                  myNewApp.describe()
                                  // selects the build config
