@@ -9,6 +9,7 @@ pipeline {
         APP_NAME         = "py-helloworld"
         GIT_URL          = "ssh://git@github.com/jfblaine"
         APP_GIT_REPO     = "${GIT_URL}/py-helloworld.git"
+        JFROG_OCP_SECRET = "artifactory-pull-secret"
         GIT_BRANCH       = "master"
         JFROG_URL_BASE   = "aio.home.io:5000"
         JFROG_REPO       = "ntlsrepo"
@@ -64,6 +65,7 @@ pipeline {
                                      "-e BUILD_NUMBER=${BUILD_NUMBER}",
                                      "-e BUILD_ENV=${openshift.project()}"
                                      )
+                                 openshift.set("set build-secret --pull bc/${APP_NAME} ${JFROG_OCP_SECRET}")
                                  echo "new-app myNewApp ${myNewApp.count()} objects named: ${myNewApp.names()}"
                                  myNewApp.describe()
                                  // selects the build config
