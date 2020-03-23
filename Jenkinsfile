@@ -114,7 +114,7 @@ pipeline {
                        withCredentials([file(credentialsId: 'tiller-kubeconfig', variable: 'kubeconfig')]) {
                             sh """
                                 export KUBECONFIG=\${kubeconfig}; export TILLER_NAMESPACE="${TILLER_NAMESPACE}"
-                                helm upgrade --install --debug "${APP_NAME}" . \
+                                helm upgrade --install --debug "${APP_NAME}-${TARGET_NS}" . \
                                     --tiller-namespace "${TILLER_NAMESPACE}" --namespace "${TARGET_NS}" \
                                     --set image_url="${JFROG_URL_BASE}/${JFROG_REPO}/${APP_NAME}:v${BUILD_NUMBER}" \
                                     --set name="${APP_NAME}" --set namespace="${TARGET_NS}"
