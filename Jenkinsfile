@@ -5,14 +5,15 @@ pipeline {
         timeout(time: 20, unit: 'MINUTES')
     } //options
     environment {
+        JFROG_URL_BASE   = "aio.home.io:5000"
+        JFROG_REPO       = "ntlsrepo"
         DEV_NS           = "ntls-dev"
         APP_NAME         = "py-helloworld"
+        APP_BLDR_IMG     = "${JFROG_URL_BASE}/${JFROG_REPO}/ubi7-python-36:1-63.1584463519"
         GIT_URL          = "ssh://git@github.com/jfblaine"
         APP_GIT_REPO     = "${GIT_URL}/py-helloworld.git"
         JFROG_OCP_SECRET = "artifactory-pull-secret"
         GIT_BRANCH       = "master"
-        JFROG_URL_BASE   = "aio.home.io:5000"
-        JFROG_REPO       = "ntlsrepo"
         HELM_CHART_DIR   = "helm-deploy"
         HELM_REPO        = "${GIT_URL}/${HELM_CHART_DIR}.git"
         TILLER_NAMESPACE = "ntls-tiller"
@@ -61,7 +62,7 @@ pipeline {
                                  echo "No existing BuildConfig found. Creating new BuildConfig."
                                  def myNewApp = openshift.newApp (
                                      "--name=${APP_NAME}",
-                                     "aio.home.io:5000/ntlsrepo/ubi7-python-36:1-63.1584463519~${APP_GIT_REPO}#${GIT_BRANCH}",
+                                     "${APP_BLDR_IMG}~${APP_GIT_REPO}#${GIT_BRANCH}",
                                      "--strategy=docker",
                                      "--insecure-registry",
                                      "-e BUILD_NUMBER=${BUILD_NUMBER}",
