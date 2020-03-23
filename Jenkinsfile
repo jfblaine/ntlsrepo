@@ -63,7 +63,9 @@ pipeline {
                                      "${APP_GIT_REPO}#${GIT_BRANCH}",
                                      "--name=${APP_NAME}",
                                      "-e BUILD_NUMBER=${BUILD_NUMBER}",
-                                     "-e BUILD_ENV=${openshift.project()}"
+                                     "-e BUILD_ENV=${openshift.project()}",
+                                     "--strategy=docker",
+                                     "--insecure-registry"
                                      )
                                  openshift.set("set build-secret --pull bc/${APP_NAME} ${JFROG_OCP_SECRET}")
                                  echo "new-app myNewApp ${myNewApp.count()} objects named: ${myNewApp.names()}"
