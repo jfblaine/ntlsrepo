@@ -59,14 +59,17 @@ pipeline {
                                  echo "Logs executed: ${result.actions[0].cmd}"
                              } else {
                                  echo "No existing BuildConfig found. Creating new BuildConfig."
-                                 def myNewApp = openshift.newApp (
-                                     "--name=${APP_NAME}",
-                                     "--code=${APP_GIT_REPO}#${GIT_BRANCH}",
-                                     "--strategy=docker",
-                                     "--insecure-registry",
-                                     "-e BUILD_NUMBER=${BUILD_NUMBER}",
-                                     "-e BUILD_ENV=${openshift.project()}"
-                                     )
+                                 //def myNewApp = openshift.newApp (
+                                 //    "--name=${APP_NAME}",
+                                 //    "--code=${APP_GIT_REPO}#${GIT_BRANCH}",
+                                 //    "--strategy=docker",
+                                 //    "--insecure-registry",
+                                 //    "-e BUILD_NUMBER=${BUILD_NUMBER}",
+                                 //    "-e BUILD_ENV=${openshift.project()}"
+                                 //    )
+                                 sh """
+                                     oc new-app --name="${APP_NAME}" "${APP_GIT_REPO}" --strategy=docker --insecure-registry
+                                    """
                                  openshift.set("build-secret --pull bc/${APP_NAME} ${JFROG_OCP_SECRET}")
                                  echo "new-app myNewApp ${myNewApp.count()} objects named: ${myNewApp.names()}"
                                  myNewApp.describe()
