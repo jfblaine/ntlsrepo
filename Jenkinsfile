@@ -62,6 +62,7 @@ pipeline {
                                  def myNewApp = openshift.newApp (
                                      "--name=${APP_NAME}",
                                      "--code=${APP_GIT_REPO}#${GIT_BRANCH}",
+                                     "--source-secret=py-helloworld-repo-at-github",
                                      "--strategy=docker",
                                      "--insecure-registry",
                                      "-e BUILD_NUMBER=${BUILD_NUMBER}",
