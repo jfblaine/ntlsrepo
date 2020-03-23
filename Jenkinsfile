@@ -62,8 +62,7 @@ pipeline {
                                      "${APP_GIT_REPO}#${GIT_BRANCH}",
                                      "--name=${APP_NAME}",
                                      "-e BUILD_NUMBER=${BUILD_NUMBER}",
-                                     "-e BUILD_ENV=${openshift.project()}",
-                                     "--strategy=docker"
+                                     "-e BUILD_ENV=${openshift.project()}"
                                      )
                                  echo "new-app myNewApp ${myNewApp.count()} objects named: ${myNewApp.names()}"
                                  myNewApp.describe()
